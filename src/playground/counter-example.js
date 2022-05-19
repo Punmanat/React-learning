@@ -31,6 +31,7 @@ class Counter extends React.Component {
     //         count: 0
     //     }
     // })
+    // Old syntax asyncronous
     this.setState({
         count:0
     })
