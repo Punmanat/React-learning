@@ -8,3 +8,6 @@
         3.2.3 Change state based on event.
         3.2.4 Component re-rendered using new state values.
         3.2.5 Start again at 3.
+
+#Command
+Babel --> babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
