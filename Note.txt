@@ -1,0 +1,10 @@
+1.ReactDOM is main function to render VitualDOM
+2.Need Template JSX.
+3.React Component (.bind use for bind context between method if not bind the data will gone)
+    3.1 binding can fix by using constructor.
+    3.2 Component state allow to change data.
+        3.2.1 Setup default state object.
+        3.2.2 Component rendered with default state values.
+        3.2.3 Change state based on event.
+        3.2.4 Component re-rendered using new state values.
+        3.2.5 Start again at 3.
