@@ -1,24 +1,34 @@
-// Stateless function component
-
 // React Components
 // Class based component
 class IndecisionApp extends React.Component {
   constructor(props) {
     super(props);
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+    this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
     this.state = {
       options: props.options,
     };
   }
-  handleDeleteOptions() {
-    this.setState(() => {
-      return {
-        options: [],
-      };
-    });
+  componentDidMount(){
+    console.log('componentDidMount')
   }
+  componentDidUpdate(preProps, prevState){
+    console.log('componentDidUpdate')
+  }
+  componentWillUnmount(){
+    console.log('componentWillUnmount')
+  }
+  handleDeleteOptions() {
+    this.setState(() => ({ options: [] }));
+  }
+  handleDeleteOption(option) {
+    this.setState((prevState) => ({
+      options: prevState.options.filter((o) => o != option),
+    }));
+  }
+
   handlePick() {
     const randomNum = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNum];
@@ -31,16 +41,10 @@ class IndecisionApp extends React.Component {
     } else if (this.state.options.indexOf(option) > -1) {
       return "This option already exists";
     }
-    this.setState((preState) => {
-      // preState.options.push(option)
-      return {
-        options: preState.options.concat(option),
-      };
-    });
+    this.setState((preState) => ({ options: preState.options.concat(option) }));
   }
   render() {
     const subtitle = "Put your life in the hands of a computer";
-    // const options = ["Thing one", "Thing two", "Thing three"];
     return (
       <div>
         <Header subtitle={subtitle} />
@@ -51,6 +55,7 @@ class IndecisionApp extends React.Component {
         <Options
           options={this.state.options}
           handleDeleteOptions={this.handleDeleteOptions}
+          handleDeleteOption={this.handleDeleteOption}
         />
         <AddOption handleAddOption={this.handleAddOption} />
       </div>
@@ -59,8 +64,8 @@ class IndecisionApp extends React.Component {
 }
 
 IndecisionApp.defaultProps = {
-  options: []
-}
+  options: [],
+};
 
 // Stateless
 const Header = (props) => {
@@ -73,8 +78,8 @@ const Header = (props) => {
 };
 
 Header.defaultProps = {
-  title: 'Indecision'
-}
+  title: "Indecision",
+};
 // Class based
 // class Header extends React.Component {
 //   render() {
@@ -120,9 +125,13 @@ const Options = (props) => {
       <button onClick={props.handleDeleteOptions}>Remove All</button>
 
       <ol>
-        {props.options.map((o) => {
-          return <Option option={o} key={o} />;
-        })}
+        {props.options.map((o) => (
+          <Option
+            option={o}
+            key={o}
+            handleDeleteOption={props.handleDeleteOption}
+          />
+        ))}
       </ol>
     </div>
   );
@@ -148,9 +157,19 @@ const Options = (props) => {
 // }
 
 // Stateless
-const Option = (props) => {
-  return <li>{props.option}</li>;
-};
+// Passing argument to parent method
+const Option = (props) => (
+  <div>
+    <li>{props.option}</li>
+    <button
+      onClick={(e) => {
+        props.handleDeleteOption(props.option);
+      }}
+    >
+      remove
+    </button>
+  </div>
+);
 
 // Class based
 // class Option extends React.Component {
@@ -173,11 +192,7 @@ class AddOption extends React.Component {
     const option = e.target.elements.option.value.trim();
     const error = this.props.handleAddOption(option);
 
-    this.setState(() => {
-      return {
-        error,
-      };
-    });
+    this.setState(() => ({ error }));
   }
   render() {
     return (
@@ -192,4 +207,7 @@ class AddOption extends React.Component {
   }
 }
 
-ReactDOM.render(<IndecisionApp options={["One", "Two", "Three"]}/>, document.getElementById("app"));
+ReactDOM.render(
+  <IndecisionApp options={["One", "Two", "Three"]} />,
+  document.getElementById("app")
+);
