@@ -1,4 +1,7 @@
+// Stateless function component
+
 // React Components
+// Class based component
 class IndecisionApp extends React.Component {
   constructor(props) {
     super(props);
@@ -6,7 +9,7 @@ class IndecisionApp extends React.Component {
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
     this.state = {
-      options: ["Thing one", "Thing two", "Thing three"],
+      options: props.options,
     };
   }
   handleDeleteOptions() {
@@ -36,12 +39,11 @@ class IndecisionApp extends React.Component {
     });
   }
   render() {
-    const title = "Indecision";
     const subtitle = "Put your life in the hands of a computer";
     // const options = ["Thing one", "Thing two", "Thing three"];
     return (
       <div>
-        <Header title={title} subtitle={subtitle} />
+        <Header subtitle={subtitle} />
         <Action
           hasOptions={this.state.options.length > 0}
           handlePick={this.handlePick}
@@ -55,53 +57,107 @@ class IndecisionApp extends React.Component {
     );
   }
 }
-class Header extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>{this.props.title}</h1>
-        <h2>{this.props.subtitle}</h2>
-      </div>
-    );
-  }
+
+IndecisionApp.defaultProps = {
+  options: []
 }
-class Action extends React.Component {
-  render() {
-    return (
-      <div>
-        <button
-          disabled={!this.props.hasOptions}
-          onClick={this.props.handlePick}
-        >
-          What should I do?
-        </button>
-      </div>
-    );
-  }
+
+// Stateless
+const Header = (props) => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+      {props.subtitle && <h2>{props.subtitle}</h2>}
+    </div>
+  );
+};
+
+Header.defaultProps = {
+  title: 'Indecision'
 }
+// Class based
+// class Header extends React.Component {
+//   render() {
+//     return (
+//       <div>
+//         <h1>{this.props.title}</h1>
+//         <h2>{this.props.subtitle}</h2>
+//       </div>
+//     );
+//   }
+// }
+
+// Stateless
+const Action = (props) => {
+  return (
+    <div>
+      <button disabled={!props.hasOptions} onClick={props.handlePick}>
+        What should I do?
+      </button>
+    </div>
+  );
+};
+// Class based
+// class Action extends React.Component {
+//   render() {
+//     return (
+//       <div>
+//         <button
+//           disabled={!this.props.hasOptions}
+//           onClick={this.props.handlePick}
+//         >
+//           What should I do?
+//         </button>
+//       </div>
+//     );
+//   }
+// }
+
+// Stateless
+const Options = (props) => {
+  return (
+    <div>
+      <button onClick={props.handleDeleteOptions}>Remove All</button>
+
+      <ol>
+        {props.options.map((o) => {
+          return <Option option={o} key={o} />;
+        })}
+      </ol>
+    </div>
+  );
+};
+
+// Class based
 // Pass function from parent
-class Options extends React.Component {
-  render() {
-    let options = this.props.options;
-    return (
-      <div>
-        <button onClick={this.props.handleDeleteOptions}>Remove All</button>
+// class Options extends React.Component {
+//   render() {
+//     let options = this.props.options;
+//     return (
+//       <div>
+//         <button onClick={this.props.handleDeleteOptions}>Remove All</button>
 
-        <ol>
-          {options.map((o) => {
-            return <Option option={o} key={o} />;
-          })}
-        </ol>
-      </div>
-    );
-  }
-}
+//         <ol>
+//           {options.map((o) => {
+//             return <Option option={o} key={o} />;
+//           })}
+//         </ol>
+//       </div>
+//     );
+//   }
+// }
 
-class Option extends React.Component {
-  render() {
-    return <li>{this.props.option}</li>;
-  }
-}
+// Stateless
+const Option = (props) => {
+  return <li>{props.option}</li>;
+};
+
+// Class based
+// class Option extends React.Component {
+//   render() {
+//     return <li>{this.props.option}</li>;
+//   }
+// }
 
 // Add state to parent
 class AddOption extends React.Component {
@@ -136,4 +192,4 @@ class AddOption extends React.Component {
   }
 }
 
-ReactDOM.render(<IndecisionApp />, document.getElementById("app"));
+ReactDOM.render(<IndecisionApp options={["One", "Two", "Three"]}/>, document.getElementById("app"));
