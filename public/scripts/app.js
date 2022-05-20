@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -29,29 +29,44 @@ var IndecisionApp = function (_React$Component) {
   }
 
   _createClass(IndecisionApp, [{
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
-      console.log('componentDidMount');
+      try {
+        var json = localStorage.getItem("options");
+        var options = JSON.parse(json);
+        if (options) {
+          this.setState(function () {
+            return { options: options };
+          });
+        }
+        console.log("fetching data");
+      } catch (e) {
+        // Do nothing at all
+      }
     }
   }, {
-    key: 'componentDidUpdate',
+    key: "componentDidUpdate",
     value: function componentDidUpdate(preProps, prevState) {
-      console.log('componentDidUpdate');
+      if (prevState.options.length !== this.state.options.length) {
+        var json = JSON.stringify(this.state.options);
+        localStorage.setItem("options", json);
+        console.log("saving data");
+      }
     }
   }, {
-    key: 'componentWillUnmount',
+    key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      console.log('componentWillUnmount');
+      console.log("componentWillUnmount");
     }
   }, {
-    key: 'handleDeleteOptions',
+    key: "handleDeleteOptions",
     value: function handleDeleteOptions() {
       this.setState(function () {
         return { options: [] };
       });
     }
   }, {
-    key: 'handleDeleteOption',
+    key: "handleDeleteOption",
     value: function handleDeleteOption(option) {
       this.setState(function (prevState) {
         return {
@@ -62,14 +77,14 @@ var IndecisionApp = function (_React$Component) {
       });
     }
   }, {
-    key: 'handlePick',
+    key: "handlePick",
     value: function handlePick() {
       var randomNum = Math.floor(Math.random() * this.state.options.length);
       var option = this.state.options[randomNum];
       alert(option);
     }
   }, {
-    key: 'handleAddOption',
+    key: "handleAddOption",
     value: function handleAddOption(option) {
       if (!option) {
         return "Enter valid value to add item";
@@ -81,11 +96,11 @@ var IndecisionApp = function (_React$Component) {
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var subtitle = "Put your life in the hands of a computer";
       return React.createElement(
-        'div',
+        "div",
         null,
         React.createElement(Header, { subtitle: subtitle }),
         React.createElement(Action, {
@@ -112,15 +127,15 @@ IndecisionApp.defaultProps = {
 // Stateless
 var Header = function Header(props) {
   return React.createElement(
-    'div',
+    "div",
     null,
     React.createElement(
-      'h1',
+      "h1",
       null,
       props.title
     ),
     props.subtitle && React.createElement(
-      'h2',
+      "h2",
       null,
       props.subtitle
     )
@@ -145,12 +160,12 @@ Header.defaultProps = {
 // Stateless
 var Action = function Action(props) {
   return React.createElement(
-    'div',
+    "div",
     null,
     React.createElement(
-      'button',
+      "button",
       { disabled: !props.hasOptions, onClick: props.handlePick },
-      'What should I do?'
+      "What should I do?"
     )
   );
 };
@@ -173,15 +188,15 @@ var Action = function Action(props) {
 // Stateless
 var Options = function Options(props) {
   return React.createElement(
-    'div',
+    "div",
     null,
     React.createElement(
-      'button',
+      "button",
       { onClick: props.handleDeleteOptions },
-      'Remove All'
+      "Remove All"
     ),
     React.createElement(
-      'ol',
+      "ol",
       null,
       props.options.map(function (o) {
         return React.createElement(Option, {
@@ -217,21 +232,21 @@ var Options = function Options(props) {
 // Passing argument to parent method
 var Option = function Option(props) {
   return React.createElement(
-    'div',
+    "div",
     null,
     React.createElement(
-      'li',
+      "li",
       null,
       props.option
     ),
     React.createElement(
-      'button',
+      "button",
       {
         onClick: function onClick(e) {
           props.handleDeleteOption(props.option);
         }
       },
-      'remove'
+      "remove"
     )
   );
 };
@@ -261,10 +276,11 @@ var AddOption = function (_React$Component2) {
   }
 
   _createClass(AddOption, [{
-    key: 'handleAddOption',
+    key: "handleAddOption",
     value: function handleAddOption(e) {
       e.preventDefault();
       var option = e.target.elements.option.value.trim();
+      e.target.elements.option.value = '';
       var error = this.props.handleAddOption(option);
 
       this.setState(function () {
@@ -272,24 +288,24 @@ var AddOption = function (_React$Component2) {
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
+        "div",
         null,
         this.state.error && React.createElement(
-          'p',
+          "p",
           null,
           this.state.error
         ),
         React.createElement(
-          'form',
+          "form",
           { onSubmit: this.handleAddOption },
-          React.createElement('input', { type: 'text', name: 'option' }),
+          React.createElement("input", { type: "text", name: "option" }),
           React.createElement(
-            'button',
+            "button",
             null,
-            'Add Option'
+            "Add Option"
           )
         )
       );

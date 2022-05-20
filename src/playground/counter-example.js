@@ -1,40 +1,44 @@
 // State Solution
 class Counter extends React.Component {
-  constructor(props){
-      super(props)
-      this.handleAddOne = this.handleAddOne.bind(this)
-      this.handleMinusOne= this.handleMinusOne.bind(this)
-      this.handleReset = this.handleReset.bind(this)
+  constructor(props) {
+    super(props);
+    this.handleAddOne = this.handleAddOne.bind(this);
+    this.handleMinusOne = this.handleMinusOne.bind(this);
+    this.handleReset = this.handleReset.bind(this);
     //   Set up default state
-      this.state = {
-          count: props.count
-      }
+    this.state = {
+      count: props.count,
+    };
+  }
+  componentDidMount() {
+    let count = parseInt(localStorage.getItem("count"));
+    if (!isNaN(count)) {
+      this.setState(() => ({ count }));
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.count !== this.state.count) {
+      localStorage.setItem("count", this.state.count);
+    }
   }
   handleAddOne() {
-      this.setState((prevState)=>{
-          return {
-              count: prevState.count + 1
-          }
-      })
+    this.setState((prevState) => {
+      return {
+        count: prevState.count + 1,
+      };
+    });
   }
   handleMinusOne() {
-    this.setState((prevState)=>{
-        return {
-            count: prevState.count - 1
-        }
-    })
+    this.setState((prevState) => {
+      return {
+        count: prevState.count - 1,
+      };
+    });
   }
   handleReset() {
-    //   Older syntax
-    // this.setState(()=>{
-    //     return {
-    //         count: 0
-    //     }
-    // })
-    // Old syntax asyncronous
     this.setState({
-        count:0
-    })
+      count: 0,
+    });
   }
   render() {
     return (
@@ -49,10 +53,10 @@ class Counter extends React.Component {
 }
 
 Counter.defaultProps = {
-  count : 0
-}
+  count: 0,
+};
 
-ReactDOM.render(<Counter count={0}/>, document.getElementById("app"));
+ReactDOM.render(<Counter count={20} />, document.getElementById("app"));
 
 // Normal Solution
 // let count = 0;
