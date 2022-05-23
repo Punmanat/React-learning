@@ -1,0 +1,5 @@
+// file for setting up babel
+{
+    "presets": ["env","react"],
+    "plugins": ["transform-class-properties"]
+}
