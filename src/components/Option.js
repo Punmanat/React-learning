@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 // Stateless
 // Passing argument to parent method
 const Option = (props) => (
   <div>
-    <li>{props.option}</li>
+    {props.option}
     <button
       onClick={(e) => {
         props.handleDeleteOption(props.option);

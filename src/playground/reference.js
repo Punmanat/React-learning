@@ -10,8 +10,8 @@ const User = (props) => {
 };
 
 MyComponent.defaultProps = {
-    mystate : 'defaultValue'
-}
+  mystate: "defaultValue",
+};
 
 class MyComponent extends React.component {
   constructor(props) {
@@ -34,3 +34,6 @@ class MyComponent extends React.component {
     );
   }
 }
+
+// prop.children --> get template to show inside HTML
+<Layout>{template}</Layout>;

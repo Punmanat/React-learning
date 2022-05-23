@@ -72,7 +72,8 @@ const oldSyntax = new OldSyntax();
 const getGreeting = oldSyntax.getGreeting;
 console.log(getGreeting());
 
-// ---------
+
+// Need to install babel class properties (transform-class-properties)
 
 class NewSyntax {
   name = "Jen";
