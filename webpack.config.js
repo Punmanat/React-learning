@@ -14,13 +14,17 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
       },
+      {
+        test: /\.s?css$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
     ],
   },
   // Source map for track error which file
   devtool: "cheap-module-eval-source-map",
   // Configuration for development server
   devServer: {
-    contentBase: path.join(__dirname, "public")
+    contentBase: path.join(__dirname, "public"),
   },
 };
 
